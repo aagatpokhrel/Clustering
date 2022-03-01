@@ -1,7 +1,8 @@
 import numpy as np
+from sklearn import cluster
 
 class KMeans:
-    def __init__(self, n_clusters = 3, tolerance = 0.01, max_iter = 100, runs = 1):
+    def __init__(self, n_clusters = 3, tolerance = 0.01, max_iter = 100, runs = 3):
         self.n_clusters = n_clusters
         self.tolerance = tolerance
         self.cluster_means = np.zeros(n_clusters)
@@ -16,7 +17,8 @@ class KMeans:
         all_clusterings = []
 
         for i in range(self.runs):
-            cluster_means =  X [ np.random.choice(row_count, size=self.n_clusters, replace=False) ]
+            #calculate centroids through random sampling
+            cluster_means =  X_values[ np.random.choice(row_count, size=self.n_clusters, replace=False) ]
             for _ in range(self.max_iter):            
                 previous_means = np.copy(cluster_means)
                 distances = self.compute_distances(X_values, cluster_means, row_count)
@@ -25,7 +27,6 @@ class KMeans:
                 clusters_not_changed = np.abs(cluster_means - previous_means) < self.tolerance
                 if np.all(clusters_not_changed) != False:
                     break
-            
             X_values_with_labels = np.append(X_values, X_labels[:, np.newaxis], axis = 1) 
             all_clusterings.append( (cluster_means, X_values_with_labels) )
             costs[i] = self.compute_cost(X_values, X_labels, cluster_means)
@@ -60,7 +61,6 @@ class KMeans:
             cost += np.linalg.norm(cluster_elements - cluster_mean, axis = 1).sum()
         
         return cost
-            
     def get_values(self, X):
         if isinstance(X, np.ndarray):
             return X
