@@ -3,7 +3,6 @@ from PIL import Image as PilImage
 from tkinter import *
 from tkinter import messagebox, filedialog
 import os
-# from compress_image import *
 from skimage import io
 from kmeans import KMeans
 import pandas as pd
@@ -107,11 +106,7 @@ class Application(Tk):
                 self.output_canvas.configure(image=computed_image)
                 self.output_canvas.image=computed_image
                 self.output_canvas.place(x=640,y=180)
-                # computed_size=os.path.getsize(computeLocation)
-                # lb2 = Label(self)
-                # lb2.pack()
-                # lb2.configure(text=f"Size: {computed_size} Bytes")
-                # lb2.place(x=800,y=180+height+50)
+                
             end = time.time()
             lb2 = Label(self)
             lb2.pack()
